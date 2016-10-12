@@ -13,8 +13,12 @@
 <script type="text/javascript">
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady(){
+        debugger;
         nfc.enabled(onSuccess: function(){
-            alert('Success');
+                alert('Success');
+            },
+            onError: function(){
+                alert('Error');
         });
     }
 </script>
