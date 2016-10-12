@@ -24,7 +24,7 @@
         });
     }
     function nfcTagDetected(reading){
-      alert(reading.tag.id); // alert the id of the NFC reading
+      alert(nfc.bytesToHexString(reading.tag.id)); // alert the id of the NFC reading
     }
     $(document).ready(function(){
 
