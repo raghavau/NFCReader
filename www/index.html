@@ -8,9 +8,7 @@
         <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
     </head>
     <body>
-        <div class="container text-right">
-            <span id="settings"><i class="fa fa-cog fa-3x"></i></span>
-        </div>
+        <div class="container text-right"></div>
     </body>
 </html>
 <script type="text/javascript" src="cordova.js"></script>
@@ -22,12 +20,10 @@
             },
             function(){
                 alert('NFC is disabled. Please enable NFC.');
-                //nfc.showSettings();
+                nfc.showSettings();
         });
     }
     $(document).ready(function(){
-        $("#settings").click(function(){
-            nfc.showSettings();
-        });
+
     });
 </script>
