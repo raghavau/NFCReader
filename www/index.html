@@ -13,23 +13,20 @@
 </html>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript">
-    /*document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady(){
         nfc.enabled(function(){
-                alert('Success');
+                nfc.addTagDiscoveredListener(nfcTagDetected);
             },
             function(){
                 alert('NFC is disabled. Please enable NFC.');
                 nfc.showSettings();
         });
-    }*/
+    }
+    function nfcTagDetected(reading){
+      alert(reading.tag.id); // alert the id of the NFC reading
+    }
     $(document).ready(function(){
-        nfc.enabled(function(){
-                alert('Success');
-            },
-            function(){
-                alert('NFC is disabled. Please enable NFC.');
-                nfc.showSettings();
-        });
+
     });
 </script>
