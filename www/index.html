@@ -15,13 +15,13 @@
 <script type="text/javascript">
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady(){
-        nfc.enabled(function(){
+        /*nfc.enabled(function(){
                 alert('Success');
             },
             function(){
-                alert('NFC is disabled. Please enable NFC.');
+                alert('NFC is disabled. Please enable NFC.');*/
                 nfc.showSettings();
-        });
+        /*});*/
     }
     $(document).ready(function(){
 
