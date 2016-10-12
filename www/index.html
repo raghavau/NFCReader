@@ -17,7 +17,8 @@
                 alert('Success');
             },
             function(){
-                alert('Error');
+                alert('NFC not enabled');
+                nfc.showSettings();
         });
     }
 </script>
