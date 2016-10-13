@@ -27,7 +27,7 @@
         });
     }
     function nfcTagDetected(reading){
-        alert(nfc.bytesToHexString(reading.tag.id));
+        alert(nfc.bytesToString(reading.tag.id));
     }
     $(document).ready(function(){
 
