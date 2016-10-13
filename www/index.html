@@ -15,7 +15,6 @@
 </html>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript">
-    var tagdata = "";
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady(){
         nfc.enabled(function(){
@@ -28,7 +27,8 @@
         });
     }
     function nfcTagDetected(reading){
-        tagdata = nfc.bytesToHexString(reading.tag.id);
+        var tagdata = nfc.bytesToHexString(reading.tag.id);
+        alert(tagdata);
     }
     $(document).ready(function(){
 
