@@ -8,7 +8,9 @@
         <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
     </head>
     <body>
-        <div class="container text-right"></div>
+        <div class="container text-right">
+            <textarea class="form-control" rows="5" id="msg"></textarea>
+        </div>
     </body>
 </html>
 <script type="text/javascript" src="cordova.js"></script>
@@ -20,12 +22,13 @@
             },
             function(){
                 //alert('NFC is disabled. Please enable NFC.');
-                confirm('NFC is disabled. Please enable NFC.');
-                nfc.showSettings();
+                var state = confirm('NFC is disabled. Please enable NFC.');
+                if(state == true)
+                    nfc.showSettings();
         });
     }
     function nfcTagDetected(reading){
-        alert(nfc.bytesToString(reading.tag.id)); // alert the id of the NFC reading
+        $("#msg").val($("#msg").val() + '/n/r' + nfc.bytesToString(reading.tag.id)); // alert the id of the NFC reading
     }
     $(document).ready(function(){
 
