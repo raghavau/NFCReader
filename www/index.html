@@ -27,7 +27,7 @@
         });
     }
     function nfcTagDetected(reading){
-        $("#msg").val($("#msg").val() + '\n\r' + nfc.bytesToString(reading.tag.id));
+        alert(nfc.bytesToString(reading.tag.id));
     }
     $(document).ready(function(){
 
