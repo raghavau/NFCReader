@@ -25,9 +25,7 @@
         });
     }
     function nfcTagDetected(reading){
-        var tag = reading.tag, ndefmsg = tag.ndefMessage;
-
-      alert(JSON.stringify(ndefmsg)); // alert the id of the NFC reading
+        alert(nfc.bytesToString(reading.tag.id)); // alert the id of the NFC reading
     }
     $(document).ready(function(){
 
