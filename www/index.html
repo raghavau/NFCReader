@@ -28,7 +28,7 @@
         });
     }
     function nfcTagDetected(reading){
-        tagdata = nfc.bytesToHexString(reading.tag);
+        tagdata = nfc.bytesToHexString(reading.tag.id);
     }
     $(document).ready(function(){
         $("#msg").val(tagdata);
