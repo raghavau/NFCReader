@@ -21,14 +21,13 @@
                 nfc.addTagDiscoveredListener(nfcTagDetected);
             },
             function(){
-                //alert('NFC is disabled. Please enable NFC.');
                 var state = confirm('NFC is disabled. Please enable NFC.');
                 if(state == true)
                     nfc.showSettings();
         });
     }
     function nfcTagDetected(reading){
-        $("#msg").val($("#msg").val() + '/n/r' + nfc.bytesToString(reading.tag.id)); // alert the id of the NFC reading
+        $("#msg").val($("#msg").val() + '\n\r' + nfc.bytesToString(reading.tag.id));
     }
     $(document).ready(function(){
 
