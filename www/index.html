@@ -30,7 +30,7 @@
     }
     function nfcTagDetected(reading){
         var tagdata = reading.tag;
-        var label = document.createTextNode(tagdata.techTypes + '------' + tagdata.id + '------' + nfc.bytesToHexString(tagdata.id)),
+        var label = document.createTextNode(tagdata.techTypes + '------' + nfc.bytesToHexString(tagdata.id)),
         lineBreak = document.createElement("br");
         messageDiv.appendChild(lineBreak); // add a line break
         messageDiv.appendChild(label); // add the text
