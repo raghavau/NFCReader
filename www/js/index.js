@@ -18,7 +18,7 @@ var app = {
 */
    onDeviceReady: function() {
 
-      /*nfc.addTagDiscoveredListener(
+      nfc.addTagDiscoveredListener(
          app.onNonNdef,           // tag successfully scanned
          function (status) {      // listener successfully initialized
             app.display("Listening for NFC tags.");
@@ -49,7 +49,7 @@ var app = {
             app.display("NFC reader failed to initialize "
                + JSON.stringify(error));
          }
-      );*/
+      );
 
       nfc.addMimeTypeListener(
          "text/plain",
