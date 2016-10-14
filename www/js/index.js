@@ -164,6 +164,7 @@ var app = {
    iterates over the records in an NDEF message to display them:
 */
    showMessage: function(message) {
+       app.display(message.length);
       for (var i=0; i < message.length; i++) {
          // get the next record in the message array:
          var record = message[i];
