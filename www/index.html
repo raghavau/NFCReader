@@ -19,7 +19,8 @@
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady(){
         nfc.enabled(function(){
-                nfc.addTagDiscoveredListener(nfcTagDetected);
+                //nfc.addTagDiscoveredListener(nfcTagDetected);
+                nfd.addNdefListener(ndefTagDetected);
             },
             function(){
                 var state = confirm('NFC is disabled. Please enable NFC.');
@@ -30,6 +31,15 @@
     function nfcTagDetected(reading){
         var tagdata = reading.tag;
         var label = document.createTextNode(tagdata.techTypes + '------' + tagdata.id + '------' + nfc.bytesToHexString(tagdata.id)),
+        lineBreak = document.createElement("br");
+        messageDiv.appendChild(lineBreak); // add a line break
+        messageDiv.appendChild(label); // add the text
+        //alert(nfc.bytesToHexString(tagdata.id));
+    }
+
+    function ndefTagDetected(reading){
+        var tagdata = reading.tag.ndefMessage[0]["payload"];
+        var label = document.createTextNode(nfc.bytesToString(tagdata)),
         lineBreak = document.createElement("br");
         messageDiv.appendChild(lineBreak); // add a line break
         messageDiv.appendChild(label); // add the text
