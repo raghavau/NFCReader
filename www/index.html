@@ -19,8 +19,8 @@
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady(){
         nfc.enabled(function(){
-                //nfc.addTagDiscoveredListener(nfcTagDetected);
-                nfd.addNdefListener(ndefTagDetected);
+                nfc.addTagDiscoveredListener(nfcTagDetected);
+                //nfd.addNdefListener(ndefTagDetected);
             },
             function(){
                 var state = confirm('NFC is disabled. Please enable NFC.');
