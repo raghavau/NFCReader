@@ -86,7 +86,7 @@ var app = {
       Process NDEF tag data from the nfcEvent
    */
    onNfc: function(nfcEvent) {
-      //app.clear();              // clear the message div
+      app.clear();              // clear the message div
       // display the event type:
       app.display(" Event Type: " + nfcEvent.type);
       app.showTag(nfcEvent.tag);   // display the tag details
@@ -101,7 +101,7 @@ var app = {
        (because Broadcom doesn't support Mifare Classic)
    */
    onNonNdef: function(nfcEvent) {
-      //app.clear();              // clear the message div
+      app.clear();              // clear the message div
       // display the event type:
       app.display("Event Type: " + nfcEvent.type);
       var tag = nfcEvent.tag;
