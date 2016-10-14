@@ -71,7 +71,7 @@ var app = {
    */
    display: function(message) {
       var label = document.createTextNode(message),
-      lineBreak = document.createElement("hr");
+      lineBreak = document.createElement("br");
       messageDiv.appendChild(lineBreak);         // add a line break
       messageDiv.appendChild(label);             // add the text
    },
