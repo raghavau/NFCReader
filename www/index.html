@@ -10,7 +10,6 @@
     <body>
         <div class="container text-right">
             <br>
-            <textarea class="form-control" rows="5" id="msg"></textarea>
             <div id="messageDiv"></div>
         </div>
     </body>
@@ -30,11 +29,11 @@
     }
     function nfcTagDetected(reading){
         var tagdata = reading.tag;
-        var label = document.createTextNode(tagdata.id),
+        var label = document.createTextNode(tagdata.id + '------' + nfc.bytesToHexString(tagdata.id)),
         lineBreak = document.createElement("br");
         messageDiv.appendChild(lineBreak); // add a line break
         messageDiv.appendChild(label); // add the text
-        alert(nfc.bytesToHexString(tagdata.id));
+        //alert(nfc.bytesToHexString(tagdata.id));
     }
     $(document).ready(function(){
 
