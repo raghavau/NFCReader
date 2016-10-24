@@ -81,14 +81,14 @@ var readapp = {
    display: function(message) {
       var label = document.createTextNode(message),
       lineBreak = document.createElement("br");
-      messageDiv.appendChild(lineBreak);         // add a line break
-      messageDiv.appendChild(label);             // add the text
+      messageRead.appendChild(lineBreak);         // add a line break
+      messageRead.appendChild(label);             // add the text
    },
    /*
       clears the message div:
    */
    clear: function() {
-       messageDiv.innerHTML = "";
+       messageRead.innerHTML = "";
    },
 
    /*

@@ -45,14 +45,14 @@ var writeapp = {
    display: function(message) {
       var label = document.createTextNode(message),
          lineBreak = document.createElement("br");
-      messageDiv.appendChild(lineBreak); // add a line break
-      messageDiv.appendChild(label);     // add the text
+      messageWrite.appendChild(lineBreak); // add a line break
+      messageWrite.appendChild(label);     // add the text
    },
    /*
       clears the message div:
    */
    clear: function() {
-      messageDiv.innerHTML = "";
+      messageWrite.innerHTML = "";
    },
 
    makeMessage: function() {
