@@ -6,19 +6,24 @@
     </head>
     <body>
         <button id="btnRead">Read NFC Tag</button>
+        <button id="btnWrite">Read NFC Tag</button>
         <div class="app">
-        <p>NDEF Reader</p>
+            <p>NDEF Reader</p>
         <div id="messageDiv"></div>
         </div>
     </body>
 </html>
 <script type="text/javascript" src="cordova.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/nfcread.js"></script>
+<script type="text/javascript" src="js/nfcwrite.js"></script>
 <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#btnRead").click(function(){
-            app.initialize();
+            readapp.initialize();
+        });
+        $("#btnWrite").click(function(){
+            writeapp.initialize();
         });
     });
 </script>
