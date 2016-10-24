@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
     <body>
+        <button id="btnRead">Read NFC Tag</button>
         <div class="app">
         <p>NDEF Reader</p>
         <div id="messageDiv"></div>
@@ -13,6 +14,11 @@
 </html>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript">
-    app.initialize();
+    $(document).ready(function(){
+        $("#btnRead").click(function(){
+            app.initialize();
+        });
+    });
 </script>
