@@ -1,204 +1,177 @@
 var writeapp = {
-/*
-   Application constructor
-*/
-    initialize: function() {
+   messageToWrite: [], // message to write on next NFC event
+
+   // Application constructor
+   initialize: function() {
       this.bindEvents();
-      //console.log("Starting NDEF Events app");
+      console.log("Starting Foursquare Checkin Advanced app");
    },
-/*
-   bind any events that are required on startup to listeners:
-*/
+
+   /*
+     bind any events that are required on startup to listeners:
+   */
    bindEvents: function() {
       document.addEventListener('deviceready', this.onDeviceReady, false);
+      appPicker.addEventListener('change', writeapp.makeMessage, false);
    },
 
-/*
-   this runs when the device is ready for user interaction:
-*/
+   /*
+     this runs when the device is ready for user interaction:
+   */
    onDeviceReady: function() {
-       nfc.enabled(function(){
-                nfc.addTagDiscoveredListener(nfcTagDetected);
-                //nfd.addNdefListener(ndefTagDetected);
-            },
-            function(){
-                var state = confirm('NFC is disabled. Please enable NFC.');
-                if(state == true)
-                    nfc.showSettings();
-        });
+      writeapp.clear();
 
       nfc.addTagDiscoveredListener(
-         app.onNonNdef,           // tag successfully scanned
-         function (status) {      // listener successfully initialized
-            app.display("Listening for NFC tags.");
+         writeapp.onNfc,          // tag successfully scanned
+         function(status) {  // listener successfully initialized
+            writeapp.makeMessage();
          },
-         function (error) {       // listener fails to initialize
-            app.display("NFC reader failed to initialize "
-               + JSON.stringify(error));
+         function(error) {    // listener fails to initialize
+            writeapp.display("NFC reader failed to initialize " +
+               JSON.stringify(error));
          }
       );
-
-      nfc.addNdefFormatableListener(
-         app.onNonNdef,           // tag successfully scanned
-         function (status) {      // listener successfully initialized
-            app.display("Listening for NDEF Formatable tags.");
-         },
-         function (error) {       // listener fails to initialize
-            app.display("NFC reader failed to initialize "
-               + JSON.stringify(error));
-         }
-      );
-
-      nfc.addNdefListener(
-         app.onNfc,               // tag successfully scanned
-         function (status) {      // listener successfully initialized
-            app.display("Listening for NDEF messages.");
-         },
-         function (error) {       // listener fails to initialize
-            app.display("NFC reader failed to initialize "
-               + JSON.stringify(error));
-         }
-      );
-
-      nfc.addMimeTypeListener(
-         "text/plain",
-         app.onNfc,               // tag successfully scanned
-         function (status) {      // listener successfully initialized
-            app.display("Listening for plain text MIME Types.");
-         },
-         function (error) {       // listener fails to initialize
-            app.display("NFC reader failed to initialize "
-               + JSON.stringify(error));
-         }
-      );
-
-      app.display("Tap a tag to read data.");
    },
 
+   /*
+     write a message when a tag is in range:
+   */
+   onNfc: function(nfcEvent) {
+      writeapp.writeTag(writeapp.messageToWrite);
+   },
    /*
       appends @message to the message div:
    */
    display: function(message) {
       var label = document.createTextNode(message),
-      lineBreak = document.createElement("br");
-      messageDiv.appendChild(lineBreak);         // add a line break
-      messageDiv.appendChild(label);             // add the text
+         lineBreak = document.createElement("br");
+      messageDiv.appendChild(lineBreak); // add a line break
+      messageDiv.appendChild(label);     // add the text
    },
    /*
       clears the message div:
    */
    clear: function() {
-       messageDiv.innerHTML = "";
+      messageDiv.innerHTML = "";
    },
 
-   /*
-      Process NDEF tag data from the nfcEvent
-   */
-   onNfc: function(nfcEvent) {
-      app.clear();              // clear the message div
-      // display the event type:
-      app.display(" Event Type: " + nfcEvent.type);
-      app.showTag(nfcEvent.tag);   // display the tag details
-   },
+   makeMessage: function() {
+      // get the app type that the user wants to emulate from the HTML form:
+      var appType = parseInt(appPicker.value, 10),
+         tnf,            // NDEF Type Name Format
+         recordType,     // NDEF Record Type
+         payload,        // content of the record
+         record,         // NDEF record object
+         message = [];   // NDEF Message to pass to writeTag()
 
-   /*
-      Process non-NDEF tag data from the nfcEvent
-      This includes
-       * Non NDEF NFC Tags
-       * NDEF Formatable Tags
-       * Mifare Classic Tags on Nexus 4, Samsung S4
-       (because Broadcom doesn't support Mifare Classic)
-   */
-   onNonNdef: function(nfcEvent) {
-      app.clear();              // clear the message div
-      // display the event type:
-      app.display("Event Type: " + nfcEvent.type);
-      var tag = nfcEvent.tag;
-      app.display("Tag ID: " + nfc.bytesToHexString(tag.id));
-      app.display("Tech Types: ");
-      for (var i = 0; i < tag.techTypes.length; i++) {
-         app.display("  * " + tag.techTypes[i]);
-      }
-   },
+      writeapp.clear();
 
-/*
-   writes @tag to the message div:
-*/
+      switch (appType) {
+         case 1: // like NFC Task Launcher
+            // format the MIME media record:
+            recordType = "x/nfctl";
+            payload = "enZ:Foursquare;c:4a917563f964a520401a20e3";
+            record = ndef.mimeMediaRecord(recordType, payload);
+            message.push(record); // push the record onto the message
 
-   showTag: function(tag) {
-      // display the tag properties:
-      app.display("Tag ID: " + nfc.bytesToHexString(tag.id));
-      app.display("Tag Type: " +  tag.type);
-      app.display("Max Size: " +  tag.maxSize + " bytes");
-      app.display("Is Writable: " +  tag.isWritable);
-      app.display("Can Make Read Only: " +  tag.canMakeReadOnly);
+            // format the Android Application Record:
+            tnf = ndef.TNF_EXTERNAL_TYPE;
+            recordType = "android.com:pkg";
+            payload = "com.jwsoft.nfcactionlauncher";
+            record = ndef.record(tnf, recordType, [], payload);
+            message.push(record); // push the record onto the message
+            break;
+         case 2: // like Tagstand Writer
+            // format the URI record as a Well-Known Type:
+            tnf = ndef.TNF_WELL_KNOWN;
+            recordType = ndef.RTD_URI; // add the URI record type
+            // convert to an array of bytes:
+            payload = nfc.stringToBytes(
+               "m.foursquare.com/venue/4a917563f964a520401a20e3");
+            // add the URI identifier code for "http://":
+            payload.unshift(0x03);
+            record = ndef.record(tnf, recordType, [], payload);
+            message.push(record); // push the record onto the message
+            break;
+         case 3: // like NXP TagWriter
+            // The payload of a Smart Poster record is an NDEF message
+            // so create an array of two records like so:
+            var smartPosterPayload = [
+               ndef.uriRecord(
+                  "http://m.foursquare.com/venue/4a917563f964a520401a20e3"),
+               ndef.textRecord("foursquare checkin"),
+            ];
 
-      // if there is an NDEF message on the tag, display it:
-      var thisMessage = tag.ndefMessage;
-      if (thisMessage !== null) {
-         // get and display the NDEF record count:
-         app.display("Tag has NDEF message with " + thisMessage.length
-            + " record" + (thisMessage.length === 1 ? ".":"s."));
+            // Create the Smart Poster Record from the array:
+            record = ndef.smartPoster(smartPosterPayload);
+            // push the smart poster record onto the message:
+            message.push(record);
+            break;
+         case 4: // like TecTiles
+            // format the record as a Well-Known Type
+            tnf = ndef.TNF_WELL_KNOWN;
+            recordType = ndef.RTD_URI; // add the URI record type
+            var uri = "tectiles://www.samsung.com/tectiles";
+            payload = nfc.stringToBytes(uri);
+            var id = nfc.stringToBytes("0");
+            // URI identifier 0x00 because there's no ID for "tectile://":
+            payload.unshift(0x00);
+            record = ndef.record(tnf, recordType, id, payload);
+            message.push(record); // push the record onto the message
 
-         // switch is part of the extended example
-         var type =  nfc.bytesToString(thisMessage[0].type);
-         switch (type) {
-            case nfc.bytesToString(ndef.RTD_TEXT):
-               app.display("Looks like a text record to me.");
-               break;
-            case nfc.bytesToString(ndef.RTD_URI):
-               app.display("That's a URI right there");
-               break;
-            case nfc.bytesToString(ndef.RTD_SMART_POSTER):
-               app.display("Golly!  That's a smart poster.");
-               break;
-            // add any custom types here,
-            // such as MIME types or external types:
-            case 'android.com:pkg':
-               app.display("You've got yourself an AAR there.");
-               break;
-            default:
-               app.display("I don't know what " +
-                  type +
-                  " is, must be a custom type");
-               break;
+            // text record with binary data
+            tnf = ndef.TNF_WELL_KNOWN;
+            recordType = ndef.RTD_TEXT;
+            payload = [];
+            // language code length
+            payload.push(2);
+            // language code
+            payload.push.apply(payload, nfc.stringToBytes("en"));
+            // Task Name
+            payload.push.apply(payload, nfc.stringToBytes("Task"));
+            // 4-byte token proprietary to TecTiles:
+            payload.push.apply(payload, [10, 31, 29, 19]);
+            // Application Name
+            payload.push.apply(payload, nfc.stringToBytes("Foursquare"));
+            // NULL terminator
+            payload.push(0);
+            // Activity to launch
+            payload.push.apply(payload, nfc.stringToBytes(
+               "com.joelapenna.foursquared.MainActivity"));
+            // NULL terminator
+            payload.push(0);
+            // Application packageName
+            payload.push.apply(payload, nfc.stringToBytes(
+               "com.joelapenna.foursquared"));
+            id = nfc.stringToBytes("1");
+            record = ndef.record(tnf, recordType, id, payload);
+            message.push(record); // push the record onto the message
+            break;
+
+         case 5: // like App Launcher NFC
+            // format the Android Application Record:
+            tnf = ndef.TNF_EXTERNAL_TYPE;
+            recordType = "android.com:pkg";
+            payload = "com.joelapenna.foursquared";
+            record = ndef.record(tnf, recordType, [], payload);
+            message.push(record); // push the record onto the message
+            break;
+      } // end of switch-case statement
+      writeapp.messageToWrite = message;
+      writeapp.display("Tap an NFC tag to write data");
+   }, // end of makeMessage()
+
+   writeTag: function(message) {
+      // write the record to the tag:
+      nfc.write(
+         message,     // write the record itself to the tag
+         function() { // when complete, run this callback function:
+            writeapp.display("Wrote data to tag."); // write to the message div
+         },
+         // this function runs if the write command fails:
+         function(reason) {
+            alert("There was a problem " + reason);
          }
-         // end of extended example
-
-         app.display("Message Contents: ");
-         app.showMessage(thisMessage);
-      }
-   },
-/*
-   iterates over the records in an NDEF message to display them:
-*/
-   showMessage: function(message) {
-       app.display(message.length);
-      for (var i=0; i < message.length; i++) {
-         // get the next record in the message array:
-         var record = message[i];
-         app.showRecord(record);          // show it
-      }
-   },
-/*
-   writes @record to the message div:
-*/
-   showRecord: function(record) {
-      // display the TNF, Type, and ID:
-      app.display(" ");
-      app.display("TNF: " + record.tnf);
-      app.display("Type: " +  nfc.bytesToString(record.type));
-      app.display("ID: " + nfc.bytesToString(record.id));
-
-      // if the payload is a Smart Poster, it's an NDEF message.
-      // read it and display it (recursion is your friend here):
-      if (nfc.bytesToString(record.type) === "Sp") {
-         var ndefMessage = ndef.decodeMessage(record.payload);
-         app.showMessage(ndefMessage);
-
-      // if the payload's not a Smart Poster, display it:
-      } else {
-         app.display("Payload: " + nfc.bytesToString(record.payload));
-      }
+      );
    }
-};     // end of app
+}; // end of app
