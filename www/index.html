@@ -8,13 +8,15 @@
     <body>
         <div class="ui large header">NFC Reader Demo App</div>
         <div class="ui container">
+            <button id="btnReload" class="small ui red button">Reload</button>
             <div class="ui pointing menu">
               <a class="item active" data-tab="read">Read NFC Tag</a>
               <a class="item" data-tab="write">Write NFC Tag</a>
             </div>
             <div class="app">
                 <div class="ui bottom attached tab segment active" data-tab="read">
-                    <button id="btnRead" class="small ui teal button">Read NFC Tag</button>
+                    <button id="btnRead" class="small ui teal button">Read NFC Tag</button>&nbsp;
+                    <button id="btnClearRead" class="small ui blue button">Clear</button>
                     <div id="messageRead"></div>
                 </div>
                 <div class="ui bottom attached tab segment" data-tab="write">
@@ -27,7 +29,8 @@
                         <option value="4">Samsung TecTiles</option>
                         <option value="5">App Launcher NFC</option>
                     </select><br /><br />
-                    <button id="btnWrite" class="small ui teal button">Write NFC Tag</button>
+                    <button id="btnWrite" class="small ui teal button">Write NFC Tag</button>&nbsp;
+                    <button id="btnClearWrite" class="small ui blue button">Clear</button>
                     <div id="messageWrite"></div>
                 </div>
             </div>
@@ -48,5 +51,14 @@
             writeapp.initialize();
         });
         $('.menu .item').tab();
+        $("#btnClearRead").click(function(){
+            $("#messageRead").html();
+        });
+        $("#btnClearWrite").click(function(){
+            $("#messageWrite").html();
+        });
+        $("#btnReload").click(function(){
+            window.location.href = 'index.html';
+        });
     });
 </script>
