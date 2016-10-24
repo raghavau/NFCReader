@@ -17,6 +17,15 @@ var app = {
    this runs when the device is ready for user interaction:
 */
    onDeviceReady: function() {
+       nfc.enabled(function(){
+                nfc.addTagDiscoveredListener(nfcTagDetected);
+                //nfd.addNdefListener(ndefTagDetected);
+            },
+            function(){
+                var state = confirm('NFC is disabled. Please enable NFC.');
+                if(state == true)
+                    nfc.showSettings();
+        });
 
       nfc.addTagDiscoveredListener(
          app.onNonNdef,           // tag successfully scanned
