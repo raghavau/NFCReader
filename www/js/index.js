@@ -25,6 +25,7 @@ var app = {
                 var state = confirm('NFC is disabled. Please enable NFC.');
                 if(state == true)
                     nfc.showSettings();
+           break;
         });
 
       nfc.addTagDiscoveredListener(
