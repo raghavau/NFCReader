@@ -61,7 +61,7 @@
         var tag = nfcEvent.tag, ndefMessage = tag.ndefMessage;
 
         if (tag.isWritable && tag.canMakeReadOnly) {
-            log( JSON.stringify( tag ) );
+            console.log( JSON.stringify( tag ) );
 
             var type = "application/com.example.name",
             id = 1234,
