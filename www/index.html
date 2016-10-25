@@ -35,18 +35,18 @@
         </div>
     </body>
 </html>
+<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="js/semantic.min.js"></script>
+<script type="text/javascript" src="phonegap-nfc.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="js/nfcread.js"></script>
 <script type="text/javascript" src="js/nfcwrite.js"></script>
-<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="js/semantic.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#btnRead").click(function(){
             readapp.initialize();
         });
         $("#btnWrite").click(function(){
-            debugger;
             writeapp.initialize();
         });
         $('.menu .item').tab();

@@ -20,7 +20,7 @@ var writeapp = {
    */
    onDeviceReady: function() {
       writeapp.clear();
-debugger;
+
       nfc.addTagDiscoveredListener(
          writeapp.onNfc,          // tag successfully scanned
          function(status) {  // listener successfully initialized
@@ -44,7 +44,7 @@ debugger;
    */
    display: function(message) {
       var label = document.createTextNode(message),
-         lineBreak = document.createElement("br");
+      lineBreak = document.createElement("br");
       messageWrite.appendChild(lineBreak); // add a line break
       messageWrite.appendChild(label);     // add the text
    },
@@ -59,11 +59,11 @@ debugger;
       // get the app type that the user wants to emulate from the HTML form:
        debugger;
       var appType = parseInt(appPicker.value, 10),
-         tnf,            // NDEF Type Name Format
-         recordType,     // NDEF Record Type
-         payload,        // content of the record
-         record,         // NDEF record object
-         message = [];   // NDEF Message to pass to writeTag()
+          tnf,            // NDEF Type Name Format
+          recordType,     // NDEF Record Type
+          payload,        // content of the record
+          record,         // NDEF record object
+          message = [];   // NDEF Message to pass to writeTag()
 
       writeapp.clear();
 
