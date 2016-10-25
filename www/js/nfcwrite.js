@@ -27,8 +27,7 @@ var writeapp = {
             writeapp.makeMessage();
          },
          function(error) {    // listener fails to initialize
-            writeapp.display("NFC reader failed to initialize " +
-               JSON.stringify(error));
+            writeapp.display("NFC reader failed to initialize " + JSON.stringify(error));
          }
       );
    },
@@ -56,7 +55,7 @@ var writeapp = {
    },
 
    makeMessage: function() {
-      // get the app type that the user wants to emulate from the HTML form:
+       // get the app type that the user wants to emulate from the HTML form:
        debugger;
       var appType = parseInt(appPicker.value, 10),
           tnf,            // NDEF Type Name Format
@@ -87,8 +86,7 @@ var writeapp = {
             tnf = ndef.TNF_WELL_KNOWN;
             recordType = ndef.RTD_URI; // add the URI record type
             // convert to an array of bytes:
-            payload = nfc.stringToBytes(
-               "m.foursquare.com/venue/4a917563f964a520401a20e3");
+            payload = nfc.stringToBytes("m.foursquare.com/venue/4a917563f964a520401a20e3");
             // add the URI identifier code for "http://":
             payload.unshift(0x03);
             record = ndef.record(tnf, recordType, [], payload);
@@ -98,8 +96,7 @@ var writeapp = {
             // The payload of a Smart Poster record is an NDEF message
             // so create an array of two records like so:
             var smartPosterPayload = [
-               ndef.uriRecord(
-                  "http://m.foursquare.com/venue/4a917563f964a520401a20e3"),
+               ndef.uriRecord("http://m.foursquare.com/venue/4a917563f964a520401a20e3"),
                ndef.textRecord("foursquare checkin"),
             ];
 
@@ -137,13 +134,11 @@ var writeapp = {
             // NULL terminator
             payload.push(0);
             // Activity to launch
-            payload.push.apply(payload, nfc.stringToBytes(
-               "com.joelapenna.foursquared.MainActivity"));
+            payload.push.apply(payload, nfc.stringToBytes("com.joelapenna.foursquared.MainActivity"));
             // NULL terminator
             payload.push(0);
             // Application packageName
-            payload.push.apply(payload, nfc.stringToBytes(
-               "com.joelapenna.foursquared"));
+            payload.push.apply(payload, nfc.stringToBytes("com.joelapenna.foursquared"));
             id = nfc.stringToBytes("1");
             record = ndef.record(tnf, recordType, id, payload);
             message.push(record); // push the record onto the message
@@ -163,8 +158,8 @@ var writeapp = {
    }, // end of makeMessage()
 
    writeTag: function(message) {
-      // write the record to the tag:
        debugger;
+      // write the record to the tag:
       nfc.write(
          message,     // write the record itself to the tag
          function() { // when complete, run this callback function:
