@@ -2,7 +2,7 @@
   <name>NFC Reader</name>
   <description>NFC Tag Reader mobile app</description>
   <author href="http://raghavau.blogspot.com" email="raghava.u@gmail.com">IT Professional</author>
-  <content src="index1.html"/>
+  <content src="index.html"/>
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="default"/>
   <preference name="target-device" value="universal"/>
