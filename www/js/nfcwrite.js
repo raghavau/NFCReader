@@ -20,7 +20,7 @@ var writeapp = {
    */
    onDeviceReady: function() {
       writeapp.clear();
-
+debugger;
       nfc.addTagDiscoveredListener(
          writeapp.onNfc,          // tag successfully scanned
          function(status) {  // listener successfully initialized
@@ -57,6 +57,7 @@ var writeapp = {
 
    makeMessage: function() {
       // get the app type that the user wants to emulate from the HTML form:
+       debugger;
       var appType = parseInt(appPicker.value, 10),
          tnf,            // NDEF Type Name Format
          recordType,     // NDEF Record Type
