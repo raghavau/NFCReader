@@ -41,12 +41,28 @@
 
     function ndefTagDetected(record){
         debugger;
+        writeTag(record);
         var tagdata = record.tag.ndefMessage[0]["payload"];
         var label = document.createTextNode(nfc.bytesToString(tagdata)),
         lineBreak = document.createElement("br");
         messageDiv.appendChild(lineBreak); // add a line break
         messageDiv.appendChild(label); // add the text
-        alert(nfc.bytesToString(tagdata));
+        //alert(nfc.bytesToString(tagdata));
+    }
+    function writeTag(nfcEvent) {
+        var mimeType = "my/mimetype";
+        var payload = "super secret data";
+        var message = nfc.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+
+        nfc.write(
+            [message],
+            function () {
+                console.log("success");
+            },
+            function (reason) {
+                console.log("fail");
+            }
+        );
     }
     $(document).ready(function(){
 
