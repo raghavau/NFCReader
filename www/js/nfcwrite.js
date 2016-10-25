@@ -77,7 +77,7 @@ var writeapp = {
             // format the Android Application Record:
             tnf = ndef.TNF_EXTERNAL_TYPE;
             recordType = "android.com:pkg";
-            payload = "com.jwsoft.nfcactionlauncher";
+            payload = "NFC Task Launcher";
             record = ndef.record(tnf, recordType, [], payload);
             message.push(record); // push the record onto the message
             break;
@@ -86,7 +86,7 @@ var writeapp = {
             tnf = ndef.TNF_WELL_KNOWN;
             recordType = ndef.RTD_URI; // add the URI record type
             // convert to an array of bytes:
-            payload = nfc.stringToBytes("m.foursquare.com/venue/4a917563f964a520401a20e3");
+            payload = nfc.stringToBytes("61.0.225.169/VPMS");
             // add the URI identifier code for "http://":
             payload.unshift(0x03);
             record = ndef.record(tnf, recordType, [], payload);
@@ -96,8 +96,8 @@ var writeapp = {
             // The payload of a Smart Poster record is an NDEF message
             // so create an array of two records like so:
             var smartPosterPayload = [
-               ndef.uriRecord("http://m.foursquare.com/venue/4a917563f964a520401a20e3"),
-               ndef.textRecord("foursquare checkin"),
+               ndef.uriRecord("http://61.0.225.169/VPMS"),
+               ndef.textRecord("Tagstand Writer"),
             ];
 
             // Create the Smart Poster Record from the array:
@@ -130,15 +130,15 @@ var writeapp = {
             // 4-byte token proprietary to TecTiles:
             payload.push.apply(payload, [10, 31, 29, 19]);
             // Application Name
-            payload.push.apply(payload, nfc.stringToBytes("Foursquare"));
+            payload.push.apply(payload, nfc.stringToBytes("KPCL"));
             // NULL terminator
             payload.push(0);
             // Activity to launch
-            payload.push.apply(payload, nfc.stringToBytes("com.joelapenna.foursquared.MainActivity"));
+            payload.push.apply(payload, nfc.stringToBytes("com.kpcl.MainActivity"));
             // NULL terminator
             payload.push(0);
             // Application packageName
-            payload.push.apply(payload, nfc.stringToBytes("com.joelapenna.foursquared"));
+            payload.push.apply(payload, nfc.stringToBytes("com.kpcl.vpms"));
             id = nfc.stringToBytes("1");
             record = ndef.record(tnf, recordType, id, payload);
             message.push(record); // push the record onto the message
@@ -148,7 +148,7 @@ var writeapp = {
             // format the Android Application Record:
             tnf = ndef.TNF_EXTERNAL_TYPE;
             recordType = "android.com:pkg";
-            payload = "com.joelapenna.foursquared";
+            payload = "com.kpcl.vpms";
             record = ndef.record(tnf, recordType, [], payload);
             message.push(record); // push the record onto the message
             break;
