@@ -164,6 +164,7 @@ debugger;
 
    writeTag: function(message) {
       // write the record to the tag:
+       debugger;
       nfc.write(
          message,     // write the record itself to the tag
          function() { // when complete, run this callback function:
@@ -171,7 +172,7 @@ debugger;
          },
          // this function runs if the write command fails:
          function(reason) {
-            alert("There was a problem " + reason);
+            writeapp.display("There was a problem " + reason);
          }
       );
    }
