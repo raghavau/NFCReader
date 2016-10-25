@@ -21,6 +21,7 @@
     function onDeviceReady(){
         nfc.enabled(function(){
                 //nfc.addTagDiscoveredListener(nfcTagDetected);
+                nfc.addNdefListener(writeTag);
                 nfc.addNdefListener(ndefTagDetected);
             },
             function(){
@@ -40,8 +41,6 @@
     }
 
     function ndefTagDetected(record){
-        debugger;
-        writeTag;
         var tagdata = record.tag.ndefMessage[0]["payload"];
         var label = document.createTextNode(nfc.bytesToString(tagdata)),
         lineBreak = document.createElement("br");
@@ -52,7 +51,7 @@
     function writeTag(nfcEvent) {
         //var mimeType = "my/mimetype";
         //var message = nfc.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
-
+        debugger;
         var tnf = ndef.TNF_WELL_KNOWN;
         var recordType = ndef.RTD_TEXT;
         var id = nfc.stringToBytes("1");
