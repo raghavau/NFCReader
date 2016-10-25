@@ -50,12 +50,16 @@
         //alert(nfc.bytesToString(tagdata));
     }
     function writeTag(nfcEvent) {
-        var mimeType = "my/mimetype";
-        var payload = "super secret data";
-        var message = nfc.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+        //var mimeType = "my/mimetype";
+        //var message = nfc.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 
+        var tnf = ndef.TNF_WELL_KNOWN;
+        var recordType = ndef.RTD_TEXT;
+        var id = nfc.stringToBytes("1");
+        var payload = "super secret data";
+        var record = ndef.record(tnf, recordType, id, payload);
         nfc.write(
-            [message],
+            [record],
             function () {
                 console.log("success");
             },
