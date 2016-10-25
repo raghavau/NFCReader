@@ -52,20 +52,39 @@
         //var mimeType = "my/mimetype";
         //var message = nfc.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
         debugger;
-        var tnf = ndef.TNF_WELL_KNOWN;
+        /*var tnf = ndef.TNF_WELL_KNOWN;
         var recordType = ndef.RTD_TEXT;
         var id = nfc.stringToBytes("1");
         var payload = "super secret data";
-        var message = ndef.record(tnf, recordType, id, payload);
-        nfc.write(
-            [message],
-            function () {
-                console.log("success");
-            },
-            function (reason) {
-                console.log("fail");
-            }
-        );
+        var message = ndef.record(tnf, recordType, id, payload);*/
+
+        var tag = nfcEvent.tag, ndefMessage = tag.ndefMessage;
+
+        if (tag.isWritable && tag.canMakeReadOnly) {
+            log( JSON.stringify( tag ) );
+
+            var type = "application/com.example.name",
+            id = 1234,
+            payload = nfc.stringToBytes( JSON.stringify( { payloadID : 1234 } ) ),
+            mime = ndef.record( ndef.TNF_MIME_MEDIA, type, id, payload );
+
+            var type = "android.com:pkg",
+            id = "",
+            payload = nfc.stringToBytes( "com.example.name" ),
+            aar = ndef.record( ndef.TNF_EXTERNAL_TYPE, type, id, payload);
+
+            var message = [ mime, aar ];
+
+            nfc.write(
+                [message],
+                function () {
+                    console.log("success");
+                },
+                function (reason) {
+                    console.log("fail");
+                }
+            );
+        }
     }
     $(document).ready(function(){
 
