@@ -41,7 +41,7 @@
 
     function ndefTagDetected(record){
         debugger;
-        writeTag(record);
+        writeTag;
         var tagdata = record.tag.ndefMessage[0]["payload"];
         var label = document.createTextNode(nfc.bytesToString(tagdata)),
         lineBreak = document.createElement("br");
@@ -57,9 +57,9 @@
         var recordType = ndef.RTD_TEXT;
         var id = nfc.stringToBytes("1");
         var payload = "super secret data";
-        var record = ndef.record(tnf, recordType, id, payload);
+        var message = ndef.record(tnf, recordType, id, payload);
         nfc.write(
-            [record],
+            [message],
             function () {
                 console.log("success");
             },
