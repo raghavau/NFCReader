@@ -56,7 +56,7 @@ var writeapp = {
 
    makeMessage: function() {
        // get the app type that the user wants to emulate from the HTML form:
-       debugger;
+       //debugger;
       var appType = parseInt(appPicker.value, 10),
           tnf,            // NDEF Type Name Format
           recordType,     // NDEF Record Type
@@ -111,7 +111,7 @@ var writeapp = {
             recordType = ndef.RTD_URI; // add the URI record type
             var uri = "tectiles://www.samsung.com/tectiles";
             payload = nfc.stringToBytes(uri);
-            var id = nfc.stringToBytes("0");
+            var id = nfc.stringToBytes("2401");
             // URI identifier 0x00 because there's no ID for "tectile://":
             payload.unshift(0x00);
             record = ndef.record(tnf, recordType, id, payload);
@@ -158,7 +158,7 @@ var writeapp = {
    }, // end of makeMessage()
 
    writeTag: function(message) {
-       debugger;
+       //debugger;
       // write the record to the tag:
       nfc.write(
          message,     // write the record itself to the tag
