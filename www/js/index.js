@@ -19,4 +19,4 @@ var app = {
    onDeviceReady: function() {
 
    }
-};     // end of app
+};// end of app
